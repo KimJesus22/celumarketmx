@@ -1,0 +1,6 @@
+@CeluMarket.API_HostAddress = http://localhost:5220
+
+GET {{CeluMarket.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

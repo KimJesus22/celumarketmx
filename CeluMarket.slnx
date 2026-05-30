@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="CeluMarket.API/CeluMarket.API.csproj" />
+  <Project Path="CeluMarket.Application/CeluMarket.Application.csproj" />
+  <Project Path="CeluMarket.Domain/CeluMarket.Domain.csproj" />
+  <Project Path="CeluMarket.Infrastructure/CeluMarket.Infrastructure.csproj" />
+</Solution>

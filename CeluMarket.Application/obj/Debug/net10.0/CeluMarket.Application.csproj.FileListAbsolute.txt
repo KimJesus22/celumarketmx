@@ -1,0 +1,15 @@
+C:\Users\kimje\Documents\celumarket\CeluMarket.Application\bin\Debug\net10.0\CeluMarket.Application.deps.json
+C:\Users\kimje\Documents\celumarket\CeluMarket.Application\bin\Debug\net10.0\CeluMarket.Application.dll
+C:\Users\kimje\Documents\celumarket\CeluMarket.Application\bin\Debug\net10.0\CeluMarket.Application.pdb
+C:\Users\kimje\Documents\celumarket\CeluMarket.Application\bin\Debug\net10.0\CeluMarket.Domain.dll
+C:\Users\kimje\Documents\celumarket\CeluMarket.Application\bin\Debug\net10.0\CeluMarket.Domain.pdb
+C:\Users\kimje\Documents\celumarket\CeluMarket.Application\obj\Debug\net10.0\CeluMarket.Application.csproj.AssemblyReference.cache
+C:\Users\kimje\Documents\celumarket\CeluMarket.Application\obj\Debug\net10.0\CeluMarket.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\kimje\Documents\celumarket\CeluMarket.Application\obj\Debug\net10.0\CeluMarket.Application.AssemblyInfoInputs.cache
+C:\Users\kimje\Documents\celumarket\CeluMarket.Application\obj\Debug\net10.0\CeluMarket.Application.AssemblyInfo.cs
+C:\Users\kimje\Documents\celumarket\CeluMarket.Application\obj\Debug\net10.0\CeluMarket.Application.csproj.CoreCompileInputs.cache
+C:\Users\kimje\Documents\celumarket\CeluMarket.Application\obj\Debug\net10.0\CeluMark.7D2900AF.Up2Date
+C:\Users\kimje\Documents\celumarket\CeluMarket.Application\obj\Debug\net10.0\CeluMarket.Application.dll
+C:\Users\kimje\Documents\celumarket\CeluMarket.Application\obj\Debug\net10.0\refint\CeluMarket.Application.dll
+C:\Users\kimje\Documents\celumarket\CeluMarket.Application\obj\Debug\net10.0\CeluMarket.Application.pdb
+C:\Users\kimje\Documents\celumarket\CeluMarket.Application\obj\Debug\net10.0\ref\CeluMarket.Application.dll
