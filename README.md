@@ -17,7 +17,9 @@ celumarket/
 ├── CeluMarket.Domain/        # Entidades del núcleo (User, Product, Brand) y reglas de negocio
 ├── CeluMarket.Infrastructure/# Persistencia a base de datos (AppDbContext, Migraciones MariaDB)
 ├── CeluMarket.slnx           # Estructura de solución moderna para VS/Rider
-└── celumarket-front/         # Frontend moderno en Astro + Tailwind CSS v4
+├── celumarket-front/         # Frontend moderno en Astro + Tailwind CSS v4
+├── Dockerfile                # Configuración de Docker para despliegue en la nube (.NET 10)
+└── .dockerignore             # Archivos excluidos de la imagen Docker
 ```
 
 ---
@@ -54,10 +56,12 @@ Asegúrate de tener instalado en tu máquina:
 
 ### 2. Configurar y Correr el Backend
 
-1. **Abre el archivo de configuración** en `CeluMarket.API/appsettings.json` (o `appsettings.Development.json`) y configura tu cadena de conexión a MariaDB/MySQL en `DefaultConnection`:
+1. **Abre el archivo de configuración** en `CeluMarket.API/appsettings.json` (o `appsettings.Development.json`) y configura tu cadena de conexión a MariaDB/MySQL en `DefaultConnection` (ya sea tu servidor local o en la nube como Aiven):
    ```json
    "ConnectionStrings": {
      "DefaultConnection": "Server=localhost;Database=celumarket_db;Uid=root;Pwd=tu_contraseña;"
+     // Ejemplo de cadena de conexión para Aiven Cloud:
+     // "DefaultConnection": "Server=mysql-host.d.aivencloud.com;Port=10064;Database=defaultdb;Uid=avnadmin;Pwd=tu_clave_aiven;SslMode=Required;"
    }
    ```
 
@@ -127,6 +131,29 @@ La API cuenta con soporte de CORS configurado específicamente para permitir pet
 #### 🛑 Error de compilación en Backend (Archivo en uso)
 - **Causa:** Intentaste compilar con `dotnet build` mientras la API seguía activa.
 - **Solución:** Detén la ejecución de la API en la terminal (`Ctrl + C`) antes de volver a compilar o usar comandos de migración.
+
+#### 🛑 Error: `Access denied for user 'avnadmin'` (Aiven Cloud)
+- **Causa 1 (Firewall):** La dirección IP de tu máquina no está autorizada en la consola de Aiven.
+- **Solución 1:** Ve a la consola de Aiven, selecciona tu base de datos, entra a **IP Filter** y añade tu IP pública actual o configúrala como `Open to all` para pruebas.
+- **Causa 2 (Tipografía de Contraseña):** Las claves autogeneradas de Aiven a veces confunden caracteres muy parecidos visualmente, como la `I` mayúscula y la `l` minúscula.
+- **Solución 2:** Revisa detalladamente la contraseña copiada para corregir typos de lectura de caracteres.
+
+---
+
+## 🐳 Despliegue con Docker
+
+El proyecto incluye un `Dockerfile` optimizado para empaquetar y desplegar el backend de la API en servicios de contenedores como **Render**, **Railway** o **AWS**:
+
+1. **Construir la imagen de Docker**:
+   ```bash
+   docker build -t celumarket-api .
+   ```
+
+2. **Correr el contenedor localmente** (mapeando el puerto `8080` de .NET):
+   ```bash
+   docker run -d -p 8080:8080 --name celumarket-instancia celumarket-api
+   ```
+
 
 ---
 

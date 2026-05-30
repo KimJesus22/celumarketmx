@@ -7,7 +7,7 @@ const API_URL = import.meta.env.PUBLIC_API_URL;
 let brands: Brand[] = [];
 let connectionError = false;
 
-// Fallback brands in case the API is offline, to ensure the landing page always looks gorgeous
+// Fallback brands in case the API is offline
 const fallbackBrands = [
   { id: 1, name: 'Apple' },
   { id: 2, name: 'Samsung' },
@@ -34,11 +34,12 @@ const mockProducts = [
     id: "p1",
     model: "iPhone 15 Pro Max",
     brand: "Apple",
-    price: 1099.00,
+    priceUsd: 1099.00,
     condition: "New",
-    conditionLabel: "Nuevo",
-    color: "Titanio Natural",
-    description: "256GB, libre de fábrica, batería al 100%, con caja y accesorios originales sin usar.",
+    colorEs: "Titanio Natural",
+    colorEn: "Natural Titanium",
+    descriptionEs: "256GB, libre de fábrica, batería al 100%, con caja y accesorios originales sin usar.",
+    descriptionEn: "256GB, factory unlocked, 100% battery health, with box and original unused accessories.",
     imageGlow: "from-amber-500/20 to-orange-500/20",
     specs: "256GB • 8GB RAM • A17 Pro"
   },
@@ -46,11 +47,12 @@ const mockProducts = [
     id: "p2",
     model: "Galaxy S24 Ultra",
     brand: "Samsung",
-    price: 1199.00,
+    priceUsd: 1199.00,
     condition: "Refurbished",
-    conditionLabel: "Reacondicionado",
-    color: "Titanio Negro",
-    description: "512GB, reacondicionado grado A. Pantalla sin detalles, incluye S-Pen original.",
+    colorEs: "Titanio Negro",
+    colorEn: "Black Titanium",
+    descriptionEs: "512GB, reacondicionado grado A. Pantalla sin detalles, incluye S-Pen original.",
+    descriptionEn: "512GB, Grade A refurbished. Flawless screen, includes original S-Pen.",
     imageGlow: "from-blue-500/20 to-cyan-500/20",
     specs: "512GB • 12GB RAM • Snapdragon Gen 3"
   },
@@ -58,11 +60,12 @@ const mockProducts = [
     id: "p3",
     model: "Xiaomi 14 Ultra",
     brand: "Xiaomi",
-    price: 949.00,
+    priceUsd: 949.00,
     condition: "New",
-    conditionLabel: "Nuevo",
-    color: "Blanco Cerámico",
-    description: "Cámara Leica de nivel profesional, carga ultrarrápida de 90W. Caja sellada.",
+    colorEs: "Blanco Cerámico",
+    colorEn: "Ceramic White",
+    descriptionEs: "Cámara Leica de nivel profesional, carga ultrarrápida de 90W. Caja sellada.",
+    descriptionEn: "Professional Leica camera system, 90W ultra-fast charging. Sealed box.",
     imageGlow: "from-rose-500/20 to-purple-500/20",
     specs: "512GB • 16GB RAM • Leica Lens"
   },
@@ -70,11 +73,12 @@ const mockProducts = [
     id: "p4",
     model: "Pixel 8 Pro",
     brand: "Google",
-    price: 749.00,
+    priceUsd: 749.00,
     condition: "Used",
-    conditionLabel: "Usado",
-    color: "Celeste",
-    description: "128GB, estética de 9.5/10. Excelente cámara con IA. 6 meses de uso ligero.",
+    colorEs: "Celeste",
+    colorEn: "Bay Blue",
+    descriptionEs: "128GB, estética de 9.5/10. Excelente cámara con IA. 6 meses de uso ligero.",
+    descriptionEn: "128GB, 9.5/10 condition. Excellent AI camera. 6 months of light usage.",
     imageGlow: "from-emerald-500/20 to-teal-500/20",
     specs: "128GB • 12GB RAM • Google Tensor G3"
   },
@@ -82,11 +86,12 @@ const mockProducts = [
     id: "p5",
     model: "iPhone 14 Pro",
     brand: "Apple",
-    price: 799.00,
+    priceUsd: 799.00,
     condition: "Used",
-    conditionLabel: "Usado",
-    color: "Morado Oscuro",
-    description: "128GB, batería al 89%. Dynamic Island impecable. Estética de 9/10.",
+    colorEs: "Morado Oscuro",
+    colorEn: "Deep Purple",
+    descriptionEs: "128GB, batería al 89%. Dynamic Island impecable. Estética de 9/10.",
+    descriptionEn: "128GB, 89% battery health. Dynamic Island flawless. 9/10 condition.",
     imageGlow: "from-purple-500/20 to-indigo-500/20",
     specs: "128GB • 6GB RAM • A16 Bionic"
   },
@@ -94,11 +99,12 @@ const mockProducts = [
     id: "p6",
     model: "Galaxy S23 Plus",
     brand: "Samsung",
-    price: 649.00,
+    priceUsd: 649.00,
     condition: "Used",
-    conditionLabel: "Usado",
-    color: "Verde Botella",
-    description: "256GB, estética de 10/10. Sin golpes ni rayones en pantalla. Caja original.",
+    colorEs: "Verde Botella",
+    colorEn: "Green",
+    descriptionEs: "256GB, estética de 10/10. Sin golpes ni rayones en pantalla. Caja original.",
+    descriptionEn: "256GB, 10/10 condition. No dents or screen scratches. Original box.",
     imageGlow: "from-green-500/20 to-emerald-500/20",
     specs: "256GB • 8GB RAM • Batería 4700mAh"
   }
@@ -133,8 +139,8 @@ const mockProducts = [
 
 		<!-- Navigation Header -->
 		<nav class="border-b border-slate-900/80 bg-slate-950/75 backdrop-blur-md sticky top-0 z-50 transition-all duration-300">
-			<div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-				<div class="flex items-center gap-3">
+			<div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between gap-4">
+				<div class="flex items-center gap-3 shrink-0">
 					<div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-indigo-500/25">
 						<svg xmlns="http://www.w3.org/2000/svg" class="w-5.5 h-5.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
 							<path stroke-linecap="round" stroke-linejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
@@ -142,26 +148,38 @@ const mockProducts = [
 					</div>
 					<div>
 						<span class="font-display font-extrabold text-2xl tracking-tight bg-gradient-to-r from-white via-slate-100 to-slate-300 bg-clip-text text-transparent">CeluMarket</span>
-						<span class="text-[10px] block text-indigo-400 font-bold uppercase tracking-widest leading-none">Tianguis Digital</span>
+						<span class="text-[10px] block text-indigo-400 font-bold uppercase tracking-widest leading-none" data-i18n="nav-sub">Tianguis Digital</span>
 					</div>
 				</div>
 
 				<div class="hidden md:flex items-center gap-8">
-					<a href="#catalogo" class="text-sm font-medium text-slate-300 hover:text-white hover:underline underline-offset-4 transition-colors">Catálogo</a>
-					<a href="#como-funciona" class="text-sm font-medium text-slate-300 hover:text-white hover:underline underline-offset-4 transition-colors">¿Cómo Funciona?</a>
-					<a href="#vender" class="text-sm font-medium text-slate-300 hover:text-white hover:underline underline-offset-4 transition-colors">Vender Celular</a>
+					<a href="#catalogo" class="text-sm font-medium text-slate-300 hover:text-white hover:underline underline-offset-4 transition-colors" data-i18n="nav-catalog">Catálogo</a>
+					<a href="#como-funciona" class="text-sm font-medium text-slate-300 hover:text-white hover:underline underline-offset-4 transition-colors" data-i18n="nav-how">¿Cómo Funciona?</a>
+					<a href="#vender" class="text-sm font-medium text-slate-300 hover:text-white hover:underline underline-offset-4 transition-colors" data-i18n="nav-sell">Vender Celular</a>
 				</div>
 
-				<div class="flex items-center gap-4">
+				<div class="flex items-center gap-3">
+					<!-- Localization Switcher -->
+					<select id="lang-selector" class="bg-slate-900 border border-slate-800/80 rounded-xl px-2 py-1.5 text-xs font-bold text-slate-300 focus:outline-none focus:border-indigo-500 cursor-pointer transition-colors" aria-label="Language Selector">
+						<option value="es">🇲🇽 ES</option>
+						<option value="en">🇺🇸 EN</option>
+					</select>
+
+					<!-- Currency Switcher -->
+					<select id="currency-selector" class="bg-slate-900 border border-slate-800/80 rounded-xl px-2 py-1.5 text-xs font-bold text-slate-300 focus:outline-none focus:border-indigo-500 cursor-pointer transition-colors" aria-label="Currency Selector">
+						<option value="mxn">🇲🇽 MXN</option>
+						<option value="usd">🇺🇸 USD</option>
+					</select>
+
 					<a 
 						href="/admin/brands" 
-						class="px-4 py-2 text-xs font-bold text-slate-300 hover:text-white bg-slate-900/60 border border-slate-800 hover:border-slate-700 rounded-xl transition-all flex items-center gap-2"
+						class="px-3.5 py-2 text-xs font-bold text-slate-300 hover:text-white bg-slate-900/60 border border-slate-800 hover:border-slate-700 rounded-xl transition-all flex items-center gap-1.5 shrink-0"
 					>
 						<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
 							<path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
 							<path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
 						</svg>
-						Admin Marcas
+						<span class="hidden sm:inline" data-i18n="nav-admin">Admin Marcas</span>
 					</a>
 				</div>
 			</div>
@@ -171,14 +189,14 @@ const mockProducts = [
 		<section class="max-w-7xl mx-auto px-6 pt-16 pb-24 text-center relative z-10">
 			<div class="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-indigo-950/40 border border-indigo-900/30 text-indigo-400 text-xs font-semibold mb-8 animate-fade-in-down">
 				<span class="w-2 h-2 rounded-full bg-indigo-400 animate-pulse"></span>
-				El primer tianguis móvil inteligente y seguro
+				<span data-i18n="hero-badge">El primer tianguis móvil inteligente y seguro</span>
 			</div>
 			
-			<h1 class="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight max-w-4xl mx-auto leading-[1.1] mb-6">
-				Compra y Vende Celulares con <span class="bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">Confianza Absoluta</span>
+			<h1 class="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight max-w-4xl mx-auto leading-[1.1] mb-6 text-white" id="hero-title-container">
+				<span data-i18n="hero-title-1">Compra y Vende Celulares con</span> <span class="bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent" data-i18n="hero-title-gradient">Confianza Absoluta</span>
 			</h1>
 
-			<p class="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto mb-12 font-light leading-relaxed">
+			<p class="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto mb-12 font-light leading-relaxed" data-i18n="hero-desc">
 				Conecta con vendedores verificados, filtra por tus marcas favoritas y estrena celular sin intermediarios ni estafas.
 			</p>
 
@@ -195,11 +213,13 @@ const mockProducts = [
 						id="hero-search" 
 						placeholder="Buscar por modelo (ej. iPhone 15, S24 Ultra)..." 
 						class="w-full bg-transparent border-0 py-3 pl-11 pr-4 text-slate-200 placeholder-slate-500 focus:outline-none focus:ring-0 text-base"
+						data-i18n-placeholder="hero-search-placeholder"
 					/>
 				</div>
 				<button 
 					onclick="document.getElementById('catalogo').scrollIntoView({ behavior: 'smooth' })"
 					class="w-full sm:w-auto bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-bold px-6 py-3.5 rounded-xl shadow-lg shadow-indigo-500/20 active:scale-[0.98] transition-all shrink-0 text-sm"
+					data-i18n="hero-search-btn"
 				>
 					Explorar Catálogo
 				</button>
@@ -209,19 +229,19 @@ const mockProducts = [
 			<div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-5xl mx-auto border-t border-slate-900 pt-16">
 				<div class="text-center">
 					<span class="text-3xl sm:text-4xl font-extrabold font-display bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent block mb-1">15k+</span>
-					<span class="text-slate-500 text-xs font-semibold uppercase tracking-wider">Celulares Vendidos</span>
+					<span class="text-slate-500 text-xs font-semibold uppercase tracking-wider" data-i18n="stat-sold">Celulares Vendidos</span>
 				</div>
 				<div class="text-center">
 					<span class="text-3xl sm:text-4xl font-extrabold font-display bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent block mb-1">4.9/5</span>
-					<span class="text-slate-500 text-xs font-semibold uppercase tracking-wider">Satisfacción Cliente</span>
+					<span class="text-slate-500 text-xs font-semibold uppercase tracking-wider" data-i18n="stat-rating">Satisfacción Cliente</span>
 				</div>
 				<div class="text-center">
 					<span class="text-3xl sm:text-4xl font-extrabold font-display bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent block mb-1">24 hrs</span>
-					<span class="text-slate-500 text-xs font-semibold uppercase tracking-wider">Envío Promedio</span>
+					<span class="text-slate-500 text-xs font-semibold uppercase tracking-wider" data-i18n="stat-shipping">Envío Promedio</span>
 				</div>
 				<div class="text-center">
 					<span class="text-3xl sm:text-4xl font-extrabold font-display bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent block mb-1">100%</span>
-					<span class="text-slate-500 text-xs font-semibold uppercase tracking-wider">Trato Seguro</span>
+					<span class="text-slate-500 text-xs font-semibold uppercase tracking-wider" data-i18n="stat-safe">Trato Seguro</span>
 				</div>
 			</div>
 		</section>
@@ -230,13 +250,13 @@ const mockProducts = [
 		<section id="catalogo" class="max-w-7xl mx-auto px-6 py-20 border-t border-slate-900 relative z-10 scroll-mt-20">
 			<div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
 				<div>
-					<span class="text-indigo-400 text-xs font-extrabold uppercase tracking-widest">Catálogo Disponible</span>
-					<h2 class="text-3xl md:text-4xl font-extrabold text-white mt-2">Nuestros Celulares Destacados</h2>
-					<p class="text-slate-400 text-sm mt-1">Filtra por tu marca favorita para ver la disponibilidad actual en el mercado.</p>
+					<span class="text-indigo-400 text-xs font-extrabold uppercase tracking-widest" data-i18n="catalog-badge">Catálogo Disponible</span>
+					<h2 class="text-3xl md:text-4xl font-extrabold text-white mt-2" data-i18n="catalog-title">Nuestros Celulares Destacados</h2>
+					<p class="text-slate-400 text-sm mt-1" data-i18n="catalog-desc">Filtra por tu marca favorita para ver la disponibilidad actual en el mercado.</p>
 				</div>
 				
 				{connectionError && (
-					<span class="text-[11px] text-amber-500 bg-amber-950/40 border border-amber-900/30 px-3 py-1.5 rounded-full font-semibold animate-pulse">
+					<span class="text-[11px] text-amber-500 bg-amber-950/40 border border-amber-900/30 px-3 py-1.5 rounded-full font-semibold animate-pulse" data-i18n="catalog-offline">
 						⚠️ API Fuera de Línea (Mostrando Marcas Demo)
 					</span>
 				)}
@@ -247,6 +267,7 @@ const mockProducts = [
 				<button 
 					data-brand-pill="all" 
 					class="brand-pill active px-5 py-2.5 rounded-xl border font-bold text-sm bg-indigo-500 border-indigo-500 text-white shadow-lg shadow-indigo-500/10 transition-all duration-300"
+					data-i18n="catalog-filter-all"
 				>
 					Todos
 				</button>
@@ -278,12 +299,15 @@ const mockProducts = [
 									<span class="text-xs font-semibold text-slate-500 bg-slate-950/80 border border-slate-900 px-3 py-1 rounded-lg">
 										{prod.brand}
 									</span>
-									<span class={`text-[10px] font-bold px-2.5 py-0.5 rounded-full border uppercase tracking-wider
-										${prod.condition === 'New' ? 'text-emerald-400 bg-emerald-950/50 border-emerald-900/30' : ''}
-										${prod.condition === 'Refurbished' ? 'text-indigo-400 bg-indigo-950/50 border-indigo-900/30' : ''}
-										${prod.condition === 'Used' ? 'text-amber-400 bg-amber-950/50 border-amber-900/30' : ''}
-									`}>
-										{prod.conditionLabel}
+									<span 
+										data-product-condition={prod.condition}
+										class={`text-[10px] font-bold px-2.5 py-0.5 rounded-full border uppercase tracking-wider
+											${prod.condition === 'New' ? 'text-emerald-400 bg-emerald-950/50 border-emerald-900/30' : ''}
+											${prod.condition === 'Refurbished' ? 'text-indigo-400 bg-indigo-950/50 border-indigo-900/30' : ''}
+											${prod.condition === 'Used' ? 'text-amber-400 bg-amber-950/50 border-amber-900/30' : ''}
+										`}
+									>
+										{prod.condition === 'New' ? 'Nuevo' : prod.condition === 'Refurbished' ? 'Reacondicionado' : 'Usado'}
 									</span>
 								</div>
 
@@ -300,19 +324,30 @@ const mockProducts = [
 
 								<!-- Title and Info -->
 								<h3 class="text-xl font-bold text-slate-200 group-hover:text-white transition-colors capitalize mb-2">{prod.model}</h3>
-								<p class="text-slate-400 text-xs leading-relaxed line-clamp-2 mb-6 min-h-[32px]">{prod.description}</p>
+								
+								<!-- Bilingual Description Container -->
+								<p 
+									class="product-desc text-slate-400 text-xs leading-relaxed line-clamp-2 mb-6 min-h-[32px]"
+									data-desc-es={prod.descriptionEs}
+									data-desc-en={prod.descriptionEn}
+								>
+									{prod.descriptionEs}
+								</p>
 							</div>
 
 							<!-- Price and Call to Action -->
 							<div class="flex items-center justify-between border-t border-slate-900/60 pt-4 mt-auto">
 								<div>
-									<span class="text-slate-500 text-[10px] uppercase font-bold block">Precio Oferta</span>
-									<span class="text-xl font-extrabold text-white">${prod.price.toLocaleString('en-US', { minimumFractionDigits: 2 })} USD</span>
+									<span class="text-slate-500 text-[10px] uppercase font-bold block" data-i18n="catalog-card-offer">Precio Oferta</span>
+									<span class="product-price text-xl font-extrabold text-white" data-base-price-usd={prod.priceUsd}>
+										${prod.priceUsd.toLocaleString('en-US', { minimumFractionDigits: 2 })} USD
+									</span>
 								</div>
 								
 								<button 
-									onclick="alert('¡Próximamente! Estamos conectando la pasarela de pago segura de CeluMarket.')"
+									onclick="alert(window.currentLanguage === 'es' ? '¡Próximamente! Estamos conectando la pasarela de pago segura de CeluMarket.' : 'Coming Soon! We are connecting CeluMarket\'s secure payment gateway.')"
 									class="px-4 py-2.5 rounded-xl bg-indigo-600/10 hover:bg-indigo-600/25 border border-indigo-500/20 text-indigo-400 hover:text-indigo-300 font-bold text-xs transition-all active:scale-[0.97]"
+									data-i18n="catalog-card-btn"
 								>
 									Ver Oferta
 								</button>
@@ -323,13 +358,13 @@ const mockProducts = [
 
 				<!-- Empty State for Search or Brand Filters -->
 				<div id="catalog-no-results" class="hidden flex flex-col items-center justify-center p-16 rounded-3xl border border-slate-900 bg-slate-950/20 text-center">
-					<div class="w-16 h-16 rounded-full bg-slate-900 flex items-center justify-center mb-4 text-slate-700">
+					<div class="w-16 h-16 rounded-full bg-slate-950/40 flex items-center justify-center mb-4 text-slate-700">
 						<svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
 							<path stroke-linecap="round" stroke-linejoin="round" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
 						</svg>
 					</div>
-					<h3 class="text-lg font-bold text-slate-300">No encontramos dispositivos</h3>
-					<p class="text-sm text-slate-500 mt-1">Prueba seleccionando otra marca o limpiando tu término de búsqueda.</p>
+					<h3 class="text-lg font-bold text-slate-300" data-i18n="catalog-empty-title">No encontramos dispositivos</h3>
+					<p class="text-sm text-slate-500 mt-1" data-i18n="catalog-empty-desc">Prueba seleccionando otra marca o limpiando tu término de búsqueda.</p>
 				</div>
 			</div>
 		</section>
@@ -337,32 +372,32 @@ const mockProducts = [
 		<!-- How it Works Section -->
 		<section id="como-funciona" class="max-w-7xl mx-auto px-6 py-24 border-t border-slate-900 relative z-10">
 			<div class="text-center max-w-xl mx-auto mb-16">
-				<span class="text-indigo-400 text-xs font-extrabold uppercase tracking-widest">Seguridad Garantizada</span>
-				<h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-2">¿Cómo funciona CeluMarket?</h2>
-				<p class="text-slate-400 text-sm mt-2">Un proceso simplificado de punta a punta para que tu transacción esté blindada.</p>
+				<span class="text-indigo-400 text-xs font-extrabold uppercase tracking-widest" data-i18n="how-badge">Seguridad Garantizada</span>
+				<h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-2" data-i18n="how-title">¿Cómo funciona CeluMarket?</h2>
+				<p class="text-slate-400 text-sm mt-2" data-i18n="how-desc">Un proceso simplificado de punta a punta para que tu transacción esté blindada.</p>
 			</div>
 
 			<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
 				<div class="bg-slate-900/10 border border-slate-900 rounded-3xl p-8 hover:border-slate-800 transition-colors">
 					<div class="w-12 h-12 rounded-xl bg-indigo-500/10 flex items-center justify-center text-indigo-400 mb-6 font-bold text-lg font-display">1</div>
-					<h3 class="text-lg font-bold text-slate-200 mb-3">Encuentra o Publica</h3>
-					<p class="text-slate-400 text-sm leading-relaxed">
+					<h3 class="text-lg font-bold text-slate-200 mb-3" data-i18n="how-step1-title">Encuentra o Publica</h3>
+					<p class="text-slate-400 text-sm leading-relaxed" data-i18n="how-step1-desc">
 						Navega por las marcas del catálogo o publica tu propio celular especificando su modelo, estética e imágenes reales.
 					</p>
 				</div>
 
 				<div class="bg-slate-900/10 border border-slate-900 rounded-3xl p-8 hover:border-slate-800 transition-colors">
 					<div class="w-12 h-12 rounded-xl bg-purple-500/10 flex items-center justify-center text-purple-400 mb-6 font-bold text-lg font-display">2</div>
-					<h3 class="text-lg font-bold text-slate-200 mb-3">Trato Directo y Seguro</h3>
-					<p class="text-slate-400 text-sm leading-relaxed">
+					<h3 class="text-lg font-bold text-slate-200 mb-3" data-i18n="how-step2-title">Trato Directo y Seguro</h3>
+					<p class="text-slate-400 text-sm leading-relaxed" data-i18n="how-step2-desc">
 						Chatea y acuerda precios. Usamos la API de verificación para comprobar que el equipo no cuente con reportes de robo o adeudo.
 					</p>
 				</div>
 
 				<div class="bg-slate-900/10 border border-slate-900 rounded-3xl p-8 hover:border-slate-800 transition-colors">
 					<div class="w-12 h-12 rounded-xl bg-pink-500/10 flex items-center justify-center text-pink-400 mb-6 font-bold text-lg font-display">3</div>
-					<h3 class="text-lg font-bold text-slate-200 mb-3">Estrena Seguro</h3>
-					<p class="text-slate-400 text-sm leading-relaxed">
+					<h3 class="text-lg font-bold text-slate-200 mb-3" data-i18n="how-step3-title">Estrena Seguro</h3>
+					<p class="text-slate-400 text-sm leading-relaxed" data-i18n="how-step3-desc">
 						Entrega personal bajo puntos seguros CeluMarket o mediante envíos con dinero retenido hasta recibir y verificar el celular.
 					</p>
 				</div>
@@ -376,23 +411,25 @@ const mockProducts = [
 				<div class="absolute -right-20 -bottom-20 w-[400px] h-[400px] bg-gradient-to-tr from-indigo-500/10 to-transparent rounded-full blur-[80px] pointer-events-none"></div>
 				
 				<div class="max-w-xl text-center md:text-left relative z-10">
-					<span class="text-xs uppercase font-extrabold tracking-widest text-indigo-400 bg-indigo-950/80 border border-indigo-900/30 px-3 py-1 rounded-full">¡Saca una lana!</span>
-					<h2 class="text-3xl md:text-5xl font-extrabold text-white mt-4 mb-4">¿Tienes un celular arrumbado?</h2>
-					<p class="text-slate-400 text-base leading-relaxed">
+					<span class="text-xs uppercase font-extrabold tracking-widest text-indigo-400 bg-indigo-950/80 border border-indigo-900/30 px-3 py-1 rounded-full" data-i18n="cta-badge">¡Saca una lana!</span>
+					<h2 class="text-3xl md:text-5xl font-extrabold text-white mt-4 mb-4" data-i18n="cta-title">¿Tienes un celular arrumbado?</h2>
+					<p class="text-slate-400 text-base leading-relaxed" data-i18n="cta-desc">
 						Publícalo hoy mismo en CeluMarket. El registro toma menos de 2 minutos y miles de compradores locales podrán ver tu oferta de forma inmediata.
 					</p>
 				</div>
 
 				<div class="flex flex-col sm:flex-row gap-4 shrink-0 relative z-10 w-full sm:w-auto">
 					<button 
-						onclick="alert('¡Próximamente! Estamos afinando los últimos detalles para la carga del catálogo de celulares.')"
+						onclick="alert(window.currentLanguage === 'es' ? '¡Próximamente! Estamos afinando los últimos detalles para la carga del catálogo de celulares.' : 'Coming Soon! We are finalizing the details for phone catalog submissions.')"
 						class="w-full sm:w-auto bg-white text-slate-950 font-bold px-8 py-4 rounded-2xl shadow-xl hover:bg-slate-100 active:scale-[0.98] transition-all text-center text-sm"
+						data-i18n="cta-btn-publish"
 					>
 						Publicar Celular
 					</button>
 					<a 
 						href="/admin/brands"
 						class="w-full sm:w-auto px-8 py-4 rounded-2xl bg-slate-900 hover:bg-slate-800/80 border border-slate-800 text-slate-200 font-bold text-sm transition-all active:scale-[0.98] text-center"
+						data-i18n="cta-btn-manage"
 					>
 						Administrar Catálogo
 					</a>
@@ -412,32 +449,32 @@ const mockProducts = [
 						</div>
 						<span class="font-display font-extrabold text-xl text-white">CeluMarket</span>
 					</div>
-					<p class="text-slate-500 text-sm max-w-sm leading-relaxed">
+					<p class="text-slate-500 text-sm max-w-sm leading-relaxed" data-i18n="footer-desc">
 						El marketplace premium y seguro para la compra y venta de teléfonos celulares en México.
 					</p>
 				</div>
 
 				<div>
-					<h4 class="text-sm font-bold text-slate-300 uppercase tracking-wider mb-4">Plataforma</h4>
+					<h4 class="text-sm font-bold text-slate-300 uppercase tracking-wider mb-4" data-i18n="footer-head-platform">Plataforma</h4>
 					<ul class="space-y-2 text-slate-500 text-sm">
-						<li><a href="#catalogo" class="hover:text-indigo-400 transition-colors">Explorar Catálogo</a></li>
-						<li><a href="#como-funciona" class="hover:text-indigo-400 transition-colors">¿Cómo Funciona?</a></li>
-						<li><a href="/admin/brands" class="hover:text-indigo-400 transition-colors">Panel de Control (Marcas)</a></li>
+						<li><a href="#catalogo" class="hover:text-indigo-400 transition-colors" data-i18n="footer-link-explore">Explorar Catálogo</a></li>
+						<li><a href="#como-funciona" class="hover:text-indigo-400 transition-colors" data-i18n="footer-link-how">¿Cómo Funciona?</a></li>
+						<li><a href="/admin/brands" class="hover:text-indigo-400 transition-colors" data-i18n="footer-link-admin">Panel de Control (Marcas)</a></li>
 					</ul>
 				</div>
 
 				<div>
-					<h4 class="text-sm font-bold text-slate-300 uppercase tracking-wider mb-4">Legales</h4>
+					<h4 class="text-sm font-bold text-slate-300 uppercase tracking-wider mb-4" data-i18n="footer-head-legal">Legales</h4>
 					<ul class="space-y-2 text-slate-500 text-sm">
-						<li><a href="#" class="hover:text-indigo-400 transition-colors">Privacidad</a></li>
-						<li><a href="#" class="hover:text-indigo-400 transition-colors">Términos de Uso</a></li>
-						<li><a href="#" class="hover:text-indigo-400 transition-colors">Soporte</a></li>
+						<li><a href="#" class="hover:text-indigo-400 transition-colors" data-i18n="footer-link-privacy">Privacidad</a></li>
+						<li><a href="#" class="hover:text-indigo-400 transition-colors" data-i18n="footer-link-terms">Términos de Uso</a></li>
+						<li><a href="#" class="hover:text-indigo-400 transition-colors" data-i18n="footer-link-support">Soporte</a></li>
 					</ul>
 				</div>
 			</div>
 
 			<div class="max-w-7xl mx-auto px-6 pt-8 border-t border-slate-900 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-600 font-medium">
-				<div>&copy; {new Date().getFullYear()} CeluMarket. Creado con pasión por el Tianguis Móvil.</div>
+				<div id="footer-copy">&copy; {new Date().getFullYear()} CeluMarket. Creado con pasión por el Tianguis Móvil.</div>
 				<div class="flex gap-4">
 					<a href="#" class="hover:underline">Facebook</a>
 					<a href="#" class="hover:underline">Twitter</a>
@@ -446,17 +483,198 @@ const mockProducts = [
 			</div>
 		</footer>
 
-		<!-- Client side filter logic -->
+		<!-- Client side filter, i18n & multi-currency logic -->
 		<script is:inline>
+			// Elements selection
 			const heroSearch = document.getElementById('hero-search');
 			const pills = document.querySelectorAll('[data-brand-pill]');
 			const cards = document.querySelectorAll('.product-card');
 			const noResults = document.getElementById('catalog-no-results');
+			const langSelector = document.getElementById('lang-selector');
+			const currencySelector = document.getElementById('currency-selector');
 
+			// Exchange Rate configuration
+			const USD_TO_MXN_RATE = 17.50;
+
+			// Global filter and localization state
 			let activeBrandFilter = 'all';
 			let activeSearchQuery = '';
+			window.currentLanguage = localStorage.getItem('celumarket_lang') || 'es';
+			window.currentCurrency = localStorage.getItem('celumarket_currency') || 'mxn';
 
-			// Function to filter listings based on state
+			// Multi-language translation dictionary (i18n)
+			const translations = {
+				es: {
+					"nav-sub": "Tianguis Digital",
+					"nav-catalog": "Catálogo",
+					"nav-how": "¿Cómo Funciona?",
+					"nav-sell": "Vender Celular",
+					"nav-admin": "Admin Marcas",
+					"hero-badge": "El primer tianguis móvil inteligente y seguro",
+					"hero-title-1": "Compra y Vende Celulares con",
+					"hero-title-gradient": "Confianza Absoluta",
+					"hero-desc": "Conecta con vendedores verificados, filtra por tus marcas favoritas y estrena celular sin intermediarios ni estafas.",
+					"hero-search-placeholder": "Buscar por modelo (ej. iPhone 15, S24 Ultra)...",
+					"hero-search-btn": "Explorar Catálogo",
+					"stat-sold": "Celulares Vendidos",
+					"stat-rating": "Satisfacción Cliente",
+					"stat-shipping": "Envío Promedio",
+					"stat-safe": "Trato Seguro",
+					"catalog-badge": "Catálogo Disponible",
+					"catalog-title": "Nuestros Celulares Destacados",
+					"catalog-desc": "Filtra por tu marca favorita para ver la disponibilidad actual en el mercado.",
+					"catalog-offline": "⚠️ API Fuera de Línea (Mostrando Marcas Demo)",
+					"catalog-filter-all": "Todos",
+					"catalog-card-offer": "Precio Oferta",
+					"catalog-card-btn": "Ver Oferta",
+					"catalog-empty-title": "No encontramos dispositivos",
+					"catalog-empty-desc": "Prueba seleccionando otra marca o limpiando tu término de búsqueda.",
+					"how-badge": "Seguridad Garantizada",
+					"how-title": "¿Cómo funciona CeluMarket?",
+					"how-desc": "Un proceso simplificado de punta a punta para que tu transacción esté blindada.",
+					"how-step1-title": "Encuentra o Publica",
+					"how-step1-desc": "Navega por las marcas del catálogo o publica tu propio celular especificando su modelo, estética e imágenes reales.",
+					"how-step2-title": "Trato Directo y Seguro",
+					"how-step2-desc": "Chatea y acuerda precios. Usamos la API de verificación para comprobar que el equipo no cuente con reportes de robo o adeudo.",
+					"how-step3-title": "Estrena Seguro",
+					"how-step3-desc": "Entrega personal bajo puntos seguros CeluMarket o mediante envíos con dinero retenido hasta recibir y verificar el celular.",
+					"cta-badge": "¡Saca una lana!",
+					"cta-title": "¿Tienes un celular arrumbado?",
+					"cta-desc": "Publícalo hoy mismo en CeluMarket. El registro toma menos de 2 minutos y miles de compradores locales podrán ver tu oferta de forma inmediata.",
+					"cta-btn-publish": "Publicar Celular",
+					"cta-btn-manage": "Administrar Catálogo",
+					"footer-desc": "El marketplace premium y seguro para la compra y venta de teléfonos celulares en México.",
+					"footer-head-platform": "Plataforma",
+					"footer-head-legal": "Legales",
+					"footer-link-explore": "Explorar Catálogo",
+					"footer-link-how": "¿Cómo Funciona?",
+					"footer-link-admin": "Panel de Control (Marcas)",
+					"footer-link-privacy": "Privacidad",
+					"footer-link-terms": "Términos de Uso",
+					"footer-link-support": "Soporte",
+					"footer-copy": `© ${new Date().getFullYear()} CeluMarket. Creado con pasión por el Tianguis Móvil.`,
+					"cond-New": "Nuevo",
+					"cond-Refurbished": "Reacondicionado",
+					"cond-Used": "Usado"
+				},
+				en: {
+					"nav-sub": "Digital Marketplace",
+					"nav-catalog": "Catalog",
+					"nav-how": "How It Works",
+					"nav-sell": "Sell Phone",
+					"nav-admin": "Admin Brands",
+					"hero-badge": "The first smart and secure mobile marketplace",
+					"hero-title-1": "Buy and Sell Phones with",
+					"hero-title-gradient": "Absolute Trust",
+					"hero-desc": "Connect with verified sellers, filter by your favorite brands, and get a new phone without intermediaries or scams.",
+					"hero-search-placeholder": "Search by model (e.g., iPhone 15, S24 Ultra)...",
+					"hero-search-btn": "Explore Catalog",
+					"stat-sold": "Phones Sold",
+					"stat-rating": "Customer Satisfaction",
+					"stat-shipping": "Average Shipping",
+					"stat-safe": "Secure Deal",
+					"catalog-badge": "Available Catalog",
+					"catalog-title": "Our Featured Phones",
+					"catalog-desc": "Filter by your favorite brand to see current market availability.",
+					"catalog-offline": "⚠️ API Offline (Showing Demo Brands)",
+					"catalog-filter-all": "All",
+					"catalog-card-offer": "Offer Price",
+					"catalog-card-btn": "View Offer",
+					"catalog-empty-title": "No devices found",
+					"catalog-empty-desc": "Try selecting another brand or clearing your search term.",
+					"how-badge": "Guaranteed Security",
+					"how-title": "How does CeluMarket work?",
+					"how-desc": "A simplified end-to-end process to keep your transaction secure.",
+					"how-step1-title": "Find or Publish",
+					"how-step1-desc": "Browse catalog brands or publish your own phone specifying its model, condition, and real images.",
+					"how-step2-title": "Direct & Safe Deal",
+					"how-step2-desc": "Chat and agree on prices. We use the verification API to check that the device has no theft or debt reports.",
+					"how-step3-title": "Enjoy Safely",
+					"how-step3-desc": "Personal delivery at CeluMarket safe points or via shipping with funds held until the phone is received and verified.",
+					"cta-badge": "Make some cash!",
+					"cta-title": "Do you have a forgotten phone?",
+					"cta-desc": "Publish it today on CeluMarket. Registration takes less than 2 minutes and thousands of local buyers will see your offer immediately.",
+					"cta-btn-publish": "Publish Phone",
+					"cta-btn-manage": "Manage Catalog",
+					"footer-desc": "The premium and secure marketplace for buying and selling cell phones in Mexico.",
+					"footer-head-platform": "Platform",
+					"footer-head-legal": "Legals",
+					"footer-link-explore": "Explore Catalog",
+					"footer-link-how": "How It Works",
+					"footer-link-admin": "Control Panel (Brands)",
+					"footer-link-privacy": "Privacy",
+					"footer-link-terms": "Terms of Use",
+					"footer-link-support": "Support",
+					"footer-copy": `© ${new Date().getFullYear()} CeluMarket. Created with passion by the Mobile Tianguis.`,
+					"cond-New": "New",
+					"cond-Refurbished": "Refurbished",
+					"cond-Used": "Used"
+				}
+			};
+
+			// Function to apply i18n translations & currency updates to the DOM
+			function updateUI() {
+				// Apply translations for static texts
+				document.querySelectorAll('[data-i18n]').forEach(el => {
+					const key = el.getAttribute('data-i18n');
+					if (translations[window.currentLanguage] && translations[window.currentLanguage][key]) {
+						// Special handling for title gradients to preserve visual structure
+						if (key === 'hero-title-gradient') {
+							el.innerHTML = translations[window.currentLanguage][key];
+						} else {
+							el.textContent = translations[window.currentLanguage][key];
+						}
+					}
+				});
+
+				// Apply placeholders
+				document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+					const key = el.getAttribute('data-i18n-placeholder');
+					if (translations[window.currentLanguage] && translations[window.currentLanguage][key]) {
+						el.setAttribute('placeholder', translations[window.currentLanguage][key]);
+					}
+				});
+
+				// Update footer copy specifically
+				const footerCopyEl = document.getElementById('footer-copy');
+				if (footerCopyEl) {
+					footerCopyEl.textContent = translations[window.currentLanguage]["footer-copy"];
+				}
+
+				// Apply product condition badge translations
+				document.querySelectorAll('[data-product-condition]').forEach(el => {
+					const cond = el.getAttribute('data-product-condition');
+					const key = `cond-${cond}`;
+					if (translations[window.currentLanguage] && translations[window.currentLanguage][key]) {
+						el.textContent = translations[window.currentLanguage][key];
+					}
+				});
+
+				// Apply product description translations
+				document.querySelectorAll('.product-desc').forEach(el => {
+					const text = window.currentLanguage === 'es' ? el.getAttribute('data-desc-es') : el.getAttribute('data-desc-en');
+					if (text) {
+						el.textContent = text;
+					}
+				});
+
+				// Apply currency conversions to product prices
+				document.querySelectorAll('.product-price').forEach(el => {
+					const priceUsd = parseFloat(el.getAttribute('data-base-price-usd') || '0');
+					if (window.currentCurrency === 'mxn') {
+						const priceMxn = priceUsd * USD_TO_MXN_RATE;
+						el.textContent = `$${priceMxn.toLocaleString(window.currentLanguage === 'es' ? 'es-MX' : 'en-US', { minimumFractionDigits: 2 })} MXN`;
+					} else {
+						el.textContent = `$${priceUsd.toLocaleString('en-US', { minimumFractionDigits: 2 })} USD`;
+					}
+				});
+
+				// Update selector values in the navbar
+				langSelector.value = window.currentLanguage;
+				currencySelector.value = window.currentCurrency;
+			}
+
+			// Function to filter listings based on query and selected brand
 			function filterProducts() {
 				let matchCount = 0;
 
@@ -468,13 +686,11 @@ const mockProducts = [
 					const matchesSearch = activeSearchQuery === '' || cardModel.includes(activeSearchQuery);
 
 					if (matchesBrand && matchesSearch) {
-						// Fade in/show
 						card.style.display = '';
 						card.style.opacity = '1';
 						card.style.transform = 'scale(1)';
 						matchCount++;
 					} else {
-						// Fade out/hide
 						card.style.display = 'none';
 						card.style.opacity = '0';
 						card.style.transform = 'scale(0.95)';
@@ -493,7 +709,6 @@ const mockProducts = [
 				pill.addEventListener('click', (e) => {
 					const selectedFilter = e.currentTarget.getAttribute('data-brand-pill') || 'all';
 					
-					// Update Active Pill Class
 					pills.forEach(p => {
 						p.classList.remove('active', 'bg-indigo-500', 'border-indigo-500', 'text-white');
 						p.classList.add('border-slate-800', 'bg-slate-900/40', 'text-slate-400');
@@ -512,6 +727,23 @@ const mockProducts = [
 				activeSearchQuery = e.target.value.toLowerCase().trim();
 				filterProducts();
 			});
+
+			// Language Selection Switcher Listener
+			langSelector.addEventListener('change', (e) => {
+				window.currentLanguage = e.target.value;
+				localStorage.setItem('celumarket_lang', window.currentLanguage);
+				updateUI();
+			});
+
+			// Currency Selection Switcher Listener
+			currencySelector.addEventListener('change', (e) => {
+				window.currentCurrency = e.target.value;
+				localStorage.setItem('celumarket_currency', window.currentCurrency);
+				updateUI();
+			});
+
+			// Initialize UI state on page load
+			updateUI();
 		</script>
 	</body>
 </html>
