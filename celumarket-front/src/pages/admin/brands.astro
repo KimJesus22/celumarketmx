@@ -1,0 +1,348 @@
+---
+import '../../styles/global.css';
+import type { Brand } from '../../types/brands';
+
+const API_URL = import.meta.env.PUBLIC_API_URL;
+
+let brands: Brand[] = [];
+let connectionError = false;
+
+try {
+  const response = await fetch(`${API_URL}/Brands`);
+  if (response.ok) {
+    brands = await response.json();
+  } else {
+    connectionError = true;
+  }
+} catch (e) {
+  connectionError = true;
+}
+---
+
+<html lang="es">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>CeluMarket | Admin Marcas</title>
+		<!-- Google Fonts: Outfit & Plus Jakarta Sans -->
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+		<style>
+			body {
+				font-family: 'Plus Jakarta Sans', sans-serif;
+			}
+			h1, h2, h3, .font-display {
+				font-family: 'Outfit', sans-serif;
+			}
+			.glow-border {
+				position: relative;
+			}
+			.glow-border::after {
+				content: '';
+				position: absolute;
+				inset: -1px;
+				background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899);
+				border-radius: inherit;
+				z-index: -1;
+				opacity: 0;
+				transition: opacity 0.3s ease;
+			}
+			.glow-border:hover::after {
+				opacity: 0.4;
+			}
+		</style>
+	</head>
+	<body class="bg-slate-950 text-slate-100 min-h-screen selection:bg-indigo-500 selection:text-white overflow-x-hidden pb-16">
+		<!-- Background Decorative Orbs -->
+		<div class="absolute top-0 left-1/4 w-96 h-96 bg-indigo-600/10 rounded-full blur-[120px] pointer-events-none"></div>
+		<div class="absolute top-1/3 right-1/4 w-96 h-96 bg-purple-600/10 rounded-full blur-[120px] pointer-events-none"></div>
+		<div class="absolute bottom-10 left-1/3 w-80 h-80 bg-pink-600/5 rounded-full blur-[100px] pointer-events-none"></div>
+
+		<!-- Navigation Header -->
+		<nav class="border-b border-slate-900 bg-slate-950/70 backdrop-blur-md sticky top-0 z-50">
+			<div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+				<div class="flex items-center gap-3">
+					<div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-500/20">
+						<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+							<path stroke-linecap="round" stroke-linejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+						</svg>
+					</div>
+					<div>
+						<span class="font-display font-extrabold text-xl tracking-tight bg-gradient-to-r from-white via-slate-200 to-indigo-400 bg-clip-text text-transparent">CeluMarket</span>
+						<span class="text-xs block text-slate-500 font-medium">Panel Administrativo</span>
+					</div>
+				</div>
+
+				<div class="flex items-center gap-6">
+					<a href="/" class="text-sm font-semibold text-slate-400 hover:text-white transition-colors">Volver a la Tienda</a>
+					<div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900 border border-slate-800 text-xs font-semibold">
+						<span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+						<span class="text-slate-300">API: Connected</span>
+					</div>
+				</div>
+			</div>
+		</nav>
+
+		<!-- Main Workspace -->
+		<main class="max-w-7xl mx-auto px-6 pt-12">
+			<!-- Hero Dashboard Title -->
+			<div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+				<div>
+					<div class="text-indigo-400 text-sm font-semibold uppercase tracking-wider mb-2">Administración</div>
+					<h1 class="text-4xl md:text-5xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-100 to-slate-400 bg-clip-text text-transparent">
+						Gestión de Marcas
+					</h1>
+					<p class="text-slate-400 mt-2 max-w-xl">
+						Administra las marcas de dispositivos móviles registradas en la base de datos de CeluMarket en tiempo real.
+					</p>
+				</div>
+
+				<div class="flex gap-4">
+					<div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-4 min-w-[140px] backdrop-blur-sm">
+						<span class="text-slate-500 text-xs block mb-1">Total Marcas</span>
+						<span id="total-brands-counter" class="text-3xl font-extrabold font-display bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
+							{brands.length}
+						</span>
+					</div>
+				</div>
+			</div>
+
+			<!-- Connection Error Alert -->
+			{connectionError && (
+				<div class="mb-8 p-4 rounded-2xl bg-red-950/40 border border-red-800/40 text-red-200 flex gap-4 items-start backdrop-blur-sm">
+					<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-red-400 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+						<path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+					</svg>
+					<div>
+						<h4 class="font-bold text-red-300">Error de conexión con la API</h4>
+						<p class="text-sm text-red-400/90 mt-1">
+							No pudimos comunicarnos con <code class="bg-red-900/30 px-1 py-0.5 rounded text-red-300">{API_URL}/Brands</code>. 
+							Asegúrate de que tu backend de .NET esté corriendo en el puerto indicado.
+						</p>
+					</div>
+				</div>
+			)}
+
+			<div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+				
+				<!-- Column 1 & 2: Brands & Search -->
+				<div class="lg:col-span-2 space-y-6">
+					
+					<!-- Search and Filter Bar -->
+					<div class="bg-slate-900/40 border border-slate-900 rounded-2xl p-4 flex flex-col sm:flex-row gap-4 items-center justify-between backdrop-blur-sm">
+						<div class="relative w-full sm:max-w-md">
+							<span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-slate-500">
+								<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+									<path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+								</svg>
+							</span>
+							<input 
+								type="text" 
+								id="search-input" 
+								placeholder="Buscar marcas..." 
+								class="w-full bg-slate-950 border border-slate-800 rounded-xl py-2.5 pl-10 pr-4 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors"
+							/>
+						</div>
+						<div class="text-xs text-slate-400 font-medium">
+							Mostrando <span id="displayed-count">{brands.length}</span> marcas
+						</div>
+					</div>
+
+					<!-- Brands Grid -->
+					<div class="relative min-h-[300px]">
+						{brands.length === 0 && !connectionError ? (
+							<div id="no-brands-msg" class="flex flex-col items-center justify-center p-12 rounded-2xl border-2 border-dashed border-slate-900 bg-slate-950/20 text-center">
+								<div class="w-16 h-16 rounded-full bg-slate-900 flex items-center justify-center mb-4 text-slate-600">
+									<svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+										<path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+									</svg>
+								</div>
+								<h3 class="font-bold text-slate-300">Sin marcas registradas</h3>
+								<p class="text-sm text-slate-500 mt-1 max-w-sm">Registra una nueva marca en el panel lateral para empezar a poblar el catálogo de CeluMarket.</p>
+							</div>
+						) : (
+							<ul id="brands-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+								{brands.map((brand) => (
+									<li 
+										data-brand-name={brand.name.toLowerCase()} 
+										class="brand-card group bg-slate-900/30 border border-slate-900/80 rounded-2xl p-6 flex flex-col justify-between hover:bg-slate-900/60 hover:border-slate-800 transition-all duration-300 relative overflow-hidden glow-border"
+									>
+										<!-- Visual Glow inside Card -->
+										<div class="absolute -right-6 -bottom-6 w-24 h-24 bg-gradient-to-tr from-indigo-500/10 to-transparent rounded-full blur-xl group-hover:scale-150 transition-transform duration-500"></div>
+										
+										<div class="flex items-start justify-between">
+											<div class="w-12 h-12 rounded-xl bg-slate-950 flex items-center justify-center border border-slate-800/80 group-hover:border-slate-700 transition-colors">
+												<span class="text-lg font-bold text-indigo-400 font-display uppercase">{brand.name.substring(0, 2)}</span>
+											</div>
+											<span class="text-[10px] uppercase font-bold tracking-widest text-slate-600 bg-slate-950/80 border border-slate-900/80 px-2 py-0.5 rounded-full">
+												ID: {brand.id}
+											</span>
+										</div>
+
+										<div class="mt-6">
+											<h3 class="text-lg font-bold text-slate-200 group-hover:text-white transition-colors capitalize">{brand.name}</h3>
+											<span class="text-xs text-slate-500 font-medium block mt-1">Dispositivos: Catálogo general</span>
+										</div>
+									</li>
+								))}
+							</ul>
+						)}
+						<div id="no-results-msg" class="hidden flex flex-col items-center justify-center p-12 rounded-2xl border border-slate-900 bg-slate-950/20 text-center">
+							<h3 class="font-bold text-slate-400">No se encontraron marcas</h3>
+							<p class="text-sm text-slate-600 mt-1">Intenta buscar con un término diferente.</p>
+						</div>
+					</div>
+
+				</div>
+
+				<!-- Column 3: Add Brand Form -->
+				<div class="bg-slate-900/40 border border-slate-900 rounded-3xl p-6 backdrop-blur-sm sticky top-24">
+					<div class="flex items-center gap-3 mb-6 pb-4 border-b border-slate-900">
+						<div class="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400">
+							<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+								<path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+							</svg>
+						</div>
+						<h2 class="text-xl font-bold text-slate-200">Añadir Marca</h2>
+					</div>
+
+					<form id="brandForm" class="space-y-5">
+						<div>
+							<label for="brand-name" class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Nombre de la Marca</label>
+							<input 
+								type="text" 
+								id="brandNameInput" 
+								name="name" 
+								required 
+								placeholder="Ej. Motorola, Google, OnePlus"
+								class="w-full bg-slate-950 border border-slate-800 rounded-xl py-3 px-4 text-sm text-slate-200 placeholder-slate-600 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors"
+							/>
+						</div>
+
+						<button 
+							type="submit" 
+							id="submit-btn" 
+							class="w-full bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-bold py-3 px-4 rounded-xl shadow-lg shadow-indigo-500/10 hover:shadow-indigo-500/20 active:scale-[0.98] transition-all flex items-center justify-center gap-2"
+						>
+							<span id="btn-text">Guardar Marca</span>
+							<svg id="btn-spinner" class="hidden animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+								<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+								<path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+							</svg>
+						</button>
+					</form>
+
+					<!-- Notifications Container (Toast inside panel) -->
+					<div id="status-toast" class="hidden mt-6 p-4 rounded-xl flex gap-3 items-start border text-sm transition-all duration-300">
+						<!-- Success Icon -->
+						<svg id="toast-success-icon" class="hidden w-5 h-5 text-emerald-400 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+							<path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+						</svg>
+						<!-- Error Icon -->
+						<svg id="toast-error-icon" class="hidden w-5 h-5 text-rose-400 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+							<path stroke-linecap="round" stroke-linejoin="round" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+						</svg>
+						<span id="toast-message" class="font-medium"></span>
+					</div>
+				</div>
+
+			</div>
+		</main>
+
+		<!-- Footer -->
+		<footer class="max-w-7xl mx-auto px-6 mt-20 pt-8 border-t border-slate-900 text-center text-xs text-slate-600 font-medium">
+			&copy; {new Date().getFullYear()} CeluMarket Front-End. Todos los derechos reservados.
+		</footer>
+
+		<!-- Client side Scripts for Interactivity -->
+		<script>
+			// 1. Atrapamos los elementos del DOM para el formulario
+			const form = document.getElementById('brandForm') as HTMLFormElement;
+			const input = document.getElementById('brandNameInput') as HTMLInputElement;
+
+			// Nota: Como este script corre en el cliente, la variable de entorno debe tener el prefijo PUBLIC_
+			// Astro reemplazará import.meta.env.PUBLIC_API_URL con el valor real al compilar.
+			const API_URL = import.meta.env.PUBLIC_API_URL;
+
+			// 2. Escuchamos el evento 'submit' del formulario
+			if (form) {
+				form.addEventListener('submit', async (e) => {
+					// Evitamos que la página se recargue tradicionalmente
+					e.preventDefault();
+
+					const brandName = input.value.trim();
+					
+					// Validación extra en el cliente
+					if (!brandName || brandName.length < 2) {
+						alert("Por favor, ingresa un nombre válido.");
+						return;
+					}
+
+					try {
+						// 3. Hacemos la llamada fetch (POST) a tu API de .NET
+						const response = await fetch(`${API_URL}/Brands`, {
+							method: 'POST',
+							headers: {
+								'Content-Type': 'application/json'
+							},
+							body: JSON.stringify({ name: brandName }) // Enviamos nuestro DTO
+						});
+
+						if (response.ok) {
+							// ¡Éxito! Limpiamos el input
+							input.value = '';
+							
+							// Como el componente Astro ya hace el GET al cargar, 
+							// la forma más rápida de ver el cambio es recargando la vista.
+							// (Más adelante podemos hacer esto reactivo sin recargar).
+							window.location.reload();
+						} else {
+							// Si el backend devuelve un 400 Bad Request
+							alert("Error al guardar la marca. Revisa los datos.");
+						}
+					} catch (error) {
+						console.error("Error de red:", error);
+						alert("No se pudo conectar con el servidor.");
+					}
+				});
+			}
+
+			// 4. Lógica del buscador en tiempo real
+			const searchInput = document.getElementById('search-input') as HTMLInputElement;
+			const displayedCount = document.getElementById('displayed-count');
+			const noResultsMsg = document.getElementById('no-results-msg');
+
+			if (searchInput) {
+				searchInput.addEventListener('input', (e) => {
+					const target = e.target as HTMLInputElement;
+					const query = target.value.toLowerCase().trim();
+					const cards = document.querySelectorAll('.brand-card');
+					let visibleCount = 0;
+
+					cards.forEach(card => {
+						const name = card.getAttribute('data-brand-name') || '';
+						if (name.includes(query)) {
+							(card as HTMLElement).style.display = '';
+							visibleCount++;
+						} else {
+							(card as HTMLElement).style.display = 'none';
+						}
+					});
+
+					if (displayedCount) {
+						displayedCount.textContent = String(visibleCount);
+					}
+					
+					if (visibleCount === 0 && cards.length > 0) {
+						noResultsMsg?.classList.remove('hidden');
+					} else {
+						noResultsMsg?.classList.add('hidden');
+					}
+				});
+			}
+		</script>
+	</body>
+</html>
