@@ -15,7 +15,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAstroFrontEnd", policy =>
     {
-        policy.WithOrigins("http://localhost:4321") // El puerto por defecto de Astro (o pon el de Vercel cuando lo subas)
+        policy.WithOrigins("http://localhost:4321", "https://celumarketmx.vercel.app") // El puerto por defecto de Astro y el dominio de Vercel
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
